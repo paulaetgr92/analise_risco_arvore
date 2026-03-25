@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/db/migrations/000001_create_trees_table.down.sql" value="bd50fa39-7272-4ad6-a7d1-a50cecac15aa" />
+    <file url="file://$PROJECT_DIR$/db/migrations/000001_create_trees_table.up.sql" value="bd50fa39-7272-4ad6-a7d1-a50cecac15aa" />
+    <file url="file://$PROJECT_DIR$/db/migrations/000002_create_weather_events.down.sql" value="269041d2-a20e-486f-8956-77b69f7c1e5c" />
+    <file url="file://$PROJECT_DIR$/db/migrations/000002_create_weather_events.up.sql" value="bd50fa39-7272-4ad6-a7d1-a50cecac15aa" />
+    <file url="file://$PROJECT_DIR$/db/migrations/000003_create_risk_assesments.up.sql" value="bd50fa39-7272-4ad6-a7d1-a50cecac15aa" />
+  </component>
+</project>
