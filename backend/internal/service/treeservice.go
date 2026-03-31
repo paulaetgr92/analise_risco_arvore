@@ -84,7 +84,10 @@ func (s *TreeService) GetTreeByIdService(ctx context.Context, id int64) (model.T
 	return response, nil
 }
 
-func (s *TreeService) LisTreesByBoundingBoxService(ctx context.Context, arg model.ListTreesByBoundingBoxRequest) ([]model.ListTreesByBoundingBoxResponse, error) {
+func (s *TreeService) LisTreesByBoundingBoxService(
+	ctx context.Context,
+	arg model.ListTreesByBoundingBoxRequest,
+) ([]model.ListTreesByBoundingBoxResponse, error) {
 
 	params := db.ListTreesByBoundingBoxParams{
 		Latitude:    arg.Latitude,
@@ -92,13 +95,26 @@ func (s *TreeService) LisTreesByBoundingBoxService(ctx context.Context, arg mode
 		Longitude:   arg.Longitude,
 		Longitude_2: arg.Longitude_2,
 	}
-	_, err := s.treeRepo.LisTreeByBoundingBoxRepository(ctx, params)
+
+	result, err := s.treeRepo.LisTreeByBoundingBoxRepository(ctx, params)
 	if err != nil {
 		return []model.ListTreesByBoundingBoxResponse{}, err
 	}
-	return []model.ListTreesByBoundingBoxResponse{}, nil
-}
 
+	response := make([]model.ListTreesByBoundingBoxResponse, 0)
+
+	for _, tree := range result {
+		response = append(response, model.ListTreesByBoundingBoxResponse{
+			Id:        tree.ID,
+			Latitude:  tree.Latitude,
+			Longitude: tree.Longitude,
+			Species:   tree.Species.String,
+			Height:    tree.Height.Float64,
+		})
+	}
+
+	return response, nil
+}
 func (s *TreeService) UpdateTreeService(ctx context.Context, arg model.UpdateTreeRequest) (model.TreeResponse, error) {
 	if arg.ID == 0 {
 		return model.TreeResponse{}, errors.New("id is required")

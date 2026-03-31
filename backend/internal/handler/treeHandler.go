@@ -53,26 +53,27 @@ func (h *TreeHandler) ListTree(c echo.Context) error {
 	return c.JSON(http.StatusOK, trees)
 }
 func (h *TreeHandler) ListTreesByBoundingBox(c echo.Context) error {
-	var req model.ListTreesByBoundingBoxRequest
+	lat1, _ := strconv.ParseFloat(c.QueryParam("lat1"), 64)
+	lat2, _ := strconv.ParseFloat(c.QueryParam("lat2"), 64)
+	lng1, _ := strconv.ParseFloat(c.QueryParam("lng1"), 64)
+	lng2, _ := strconv.ParseFloat(c.QueryParam("lng2"), 64)
 
-	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "parâmetros inválidos",
-		})
-	}
-
-	trees, err := h.service.LisTreesByBoundingBoxService(
-		c.Request().Context(), req,
+	result, err := h.service.LisTreesByBoundingBoxService(
+		c.Request().Context(),
+		model.ListTreesByBoundingBoxRequest{
+			Latitude:    lat1,
+			Latitude_2:  lat2,
+			Longitude:   lng1,
+			Longitude_2: lng2,
+		},
 	)
+
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": err.Error(),
-		})
+		return c.JSON(500, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, trees)
+	return c.JSON(200, result)
 }
-
 func (h *TreeHandler) GetTreeByID(c echo.Context) error {
 	idParam := c.Param("id")
 

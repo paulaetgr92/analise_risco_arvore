@@ -1,0 +1,56 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CONTAINER */
+.container {
+    padding: 20px;
+    color: white;
+}
+
+/* MAPA */
+#map-filter {
+    height: 400px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+/* LISTA */
+#tree-list {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* ITEM */
+.tree-item {
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tree-item:hover {
+    background: rgba(0,0,0,0.9);
+}
+
+/* BOTÃO */
+button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #2e7d32;
+    color: white;
+    cursor: pointer;
+}
