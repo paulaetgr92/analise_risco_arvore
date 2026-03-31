@@ -5,21 +5,67 @@
     <title>Árvores</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="src/styles.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            color: white;
+            background: url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+
+        #map-filter {
+            height: 400px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        #tree-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .tree-item {
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tree-item:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        button {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="navbar">
     <h2>Tree Risk</h2>
-    <div class="links">
-        <a href="index.html">Mapa</a>
-        <a href="arvores.html">Árvores</a>
-    </div>
 </div>
 
 <div class="container">
 
-    <h1>Árvores por localização</h1>
+    <h1>🌳 Árvores por localização</h1>
 
     <div id="map-filter"></div>
 

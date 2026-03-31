@@ -1,36 +1,51 @@
 import { useState } from "react";
+import { createTree } from "../service/treeService";
 
 export default function TreeForm({ onCreated }) {
-    const [latitude, setLatitude] = useState("");
+    const [latitude, setLatitude]   = useState("");
     const [longitude, setLongitude] = useState("");
-    const [especie, setEspecie] = useState("");
-    const [altura, setAltura] = useState("");
+    const [especie, setEspecie]     = useState("");
+    const [altura, setAltura]       = useState("");
+    const [saving, setSaving]       = useState(false);
+    const [error, setError]         = useState(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
 
         if (!latitude || !longitude) {
             alert("Preencha latitude e longitude!");
             return;
         }
 
+        if (!altura || parseFloat(altura) <= 0) {
+            alert("Preencha uma altura válida maior que zero!");
+            return;
+        }
+
         const newTree = {
-            lat: parseFloat(latitude),
-            lng: parseFloat(longitude),
+            lat:     parseFloat(latitude),
+            lng:     parseFloat(longitude),
             species: especie || "Desconhecida",
-            height: altura || "N/A",
+            height:  parseFloat(altura), // <- number, não string
         };
 
         console.log("🌳 Nova árvore:", newTree);
 
-        // 🔥 adiciona na lista
-        onCreated(newTree);
-
-        // limpa campos
-        setLatitude("");
-        setLongitude("");
-        setEspecie("");
-        setAltura("");
+        setSaving(true);
+        try {
+            await createTree(newTree);
+            onCreated();
+            setLatitude("");
+            setLongitude("");
+            setEspecie("");
+            setAltura("");
+        } catch (err) {
+            console.error("Erro ao cadastrar:", err);
+            setError("Erro ao cadastrar árvore. Verifique os dados.");
+        } finally {
+            setSaving(false);
+        }
     };
 
     return (
@@ -44,7 +59,6 @@ export default function TreeForm({ onCreated }) {
                 value={latitude}
                 onChange={(e) => setLatitude(e.target.value)}
             />
-
             <input
                 type="number"
                 step="any"
@@ -52,22 +66,26 @@ export default function TreeForm({ onCreated }) {
                 value={longitude}
                 onChange={(e) => setLongitude(e.target.value)}
             />
-
             <input
                 type="text"
                 placeholder="Espécie"
                 value={especie}
                 onChange={(e) => setEspecie(e.target.value)}
             />
-
             <input
                 type="number"
+                step="any"
+                min="0.1"
                 placeholder="Altura (m)"
                 value={altura}
                 onChange={(e) => setAltura(e.target.value)}
             />
 
-            <button type="submit">Cadastrar</button>
+            {error && <p style={{ color: "red", fontSize: "0.85rem" }}>{error}</p>}
+
+            <button type="submit" disabled={saving}>
+                {saving ? "Salvando..." : "Cadastrar"}
+            </button>
         </form>
     );
 }
